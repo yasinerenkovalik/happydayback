@@ -45,7 +45,7 @@ public static class AuthCookies
     }
 
     /// <param name="siteWide">
-    /// Yalnızca işaret cookie'si için: frontend (mutlugunum.com.tr) API'den (api.mutlugunum.com.tr) ayrı bir alt alan
+    /// Yalnızca işaret cookie'si için: frontend (mutlugunum.com) API'den (api.mutlugunum.com) ayrı bir alt alan
     /// adındaysa, frontend'in okuyabilmesi için ortak alan adına (Auth:SiteDomain) yazılır. Token cookie'leri yalnızca
     /// API'nin kendi alan adında kalır.
     /// </param>

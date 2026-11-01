@@ -100,7 +100,7 @@ public class ModerateOrganizationCommandHandler :
             var company = await _companies.GetByIdAsync(organization.CompanyId);
             if (company is null) return;
 
-            var panelLink = $"{_config["Frontend:BaseUrl"] ?? "http://mutlugunum.com.tr"}/panel/mekanlar/{organization.Id}";
+            var panelLink = $"{_config["Frontend:BaseUrl"] ?? "https://mutlugunum.com"}/panel/mekanlar/{organization.Id}";
             await _email.SendAsync(company.Email, subject,
                 html + $@"<p><a href=""{panelLink}"">Mekanı panelde açın</a></p>",
                 text + $"\n\nMekan: {panelLink}", ct);

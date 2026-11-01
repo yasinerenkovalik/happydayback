@@ -108,7 +108,7 @@ namespace HappyDay.Application.Features.Commands.ContactMessage.CreateContactMes
                 {
                     // Ziyaretçiden gelen her alan HTML'e kodlanır; aksi halde formdan e-postaya HTML/link enjekte edilebilir
                     static string Html(string? value) => WebUtility.HtmlEncode(value ?? string.Empty).Replace("\n", "<br>");
-                    var panelLink = $"{_config["Frontend:BaseUrl"] ?? "http://mutlugunum.com.tr"}/panel/mesajlar";
+                    var panelLink = $"{_config["Frontend:BaseUrl"] ?? "https://mutlugunum.com"}/panel/mesajlar";
 
                     await _email.SendAsync(
                         companyInfo.Email,

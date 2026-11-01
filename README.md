@@ -120,7 +120,7 @@ Browser sessions use httpOnly cookies instead of a token in `localStorage`: a 15
 
 Requests that change data and authenticate with the cookie must send the `X-Davetly-Client` header (CSRF protection). Clients that send `Authorization: Bearer` (Swagger) do not need it.
 
-Cookies default to `SameSite=Strict`, which works when the frontend and the API share a site (for example `davetly.com` and `api.davetly.com`). If they are on different sites, set `Auth__CookieSameSite=None` (HTTPS only) and list the frontend in `Cors:AllowedOrigins`. When the frontend and the API are on different subdomains (`mutlugunum.com.tr` and `api.mutlugunum.com.tr`), set `Auth__SiteDomain=mutlugunum.com.tr`: the non-secret `davetly.session` marker is then written for the whole site so the frontend can see it; the token cookies stay on the API's own host.
+Cookies default to `SameSite=Strict`, which works when the frontend and the API share a site (for example `davetly.com` and `api.davetly.com`). If they are on different sites, set `Auth__CookieSameSite=None` (HTTPS only) and list the frontend in `Cors:AllowedOrigins`. When the frontend and the API are on different subdomains (`mutlugunum.com` and `api.mutlugunum.com`), set `Auth__SiteDomain=mutlugunum.com`: the non-secret `davetly.session` marker is then written for the whole site so the frontend can see it; the token cookies stay on the API's own host.
 
 ## E-mail
 
