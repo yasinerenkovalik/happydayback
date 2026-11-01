@@ -234,7 +234,8 @@ if (logEmailsOnly)
 // ---------------- Middleware ----------------
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
-if (app.Environment.IsDevelopment())
+// Swagger geliştirmede hep açık; sunucuda yalnızca Swagger__Enabled=true ile (iş bitince kapatın)
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue("Swagger:Enabled", false))
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
@@ -243,7 +244,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger";
     });
 }
-else
+
+if (!app.Environment.IsDevelopment())
 {
     // Tarayıcı bu alan adına bir yıl boyunca yalnızca HTTPS ile gelsin
     app.UseHsts();
@@ -303,6 +305,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
+
+// Kök adres boş 404 dönünce bazı tarayıcılar dosya indiriyordu
+app.MapGet("/", () => Results.Text("Mutlu Günüm API çalışıyor. Sağlık kontrolü: /health"));
 
 await app.PrepareDatabaseAsync();
 
