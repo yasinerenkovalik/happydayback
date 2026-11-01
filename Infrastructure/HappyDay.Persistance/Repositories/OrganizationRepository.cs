@@ -3,6 +3,7 @@ using HappyDay.Application.Features.Queries.Organization.GetByCompany;
 using HappyDay.Application.Features.Queries.Organization.GetFeatured;
 using HappyDay.Application.Features.Queries.Organization.GetFilterOrganization;
 using HappyDay.Application.Features.Queries.Organization.GetOrganizationWithImages;
+using HappyDay.Application.Features.Queries.Seo.GetSitemap;
 using HappyDay.Application.Interface.Repository;
 using HappyDay.Domain.Entities;
 using HappyDay.Persistance.Context;
@@ -182,6 +183,15 @@ public class OrganizationRepository:GenericRepository<Organization>,IOrganizatio
     public Task<int> CountPublishedAsync()
     {
         return _context.Organizations.Where(OrganizationVisibility.Published).CountAsync();
+    }
+
+    public Task<List<SitemapVenue>> GetPublishedForSitemapAsync()
+    {
+        return _context.Organizations
+            .Where(OrganizationVisibility.Published)
+            .OrderByDescending(o => o.CreateDate)
+            .Select(o => new SitemapVenue(o.Id, o.UpdateDate > o.CreateDate ? o.UpdateDate : o.CreateDate))
+            .ToListAsync();
     }
 
     public async Task<List<Organization>> GetByCompany(Guid companyId, bool publishedOnly)

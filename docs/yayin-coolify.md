@@ -72,7 +72,7 @@ Coolify → **Sources** → **+ Add** → **GitHub App**. Adımları izleyip uyg
 
 1. **+ New** → **Private Repository (with GitHub App)** → `happydayback`, dal: `main`.
 2. **Build Pack**: `Dockerfile`, **Dockerfile Location**: `/Dockerfile` (kökteki; `Presentation/HappyDay.Api/Dockerfile` IDE içindir).
-3. **Ports Exposes**: `8080`.
+3. **Ports Exposes**: `8080`. **Ports Mappings** alanını boş bırakın: API'ye yalnızca Traefik üzerinden ulaşılmalı (API, ziyaretçi IP'sini Traefik'in eklediği başlıktan okur).
 4. **Domains**: `https://api.mutlugunum.com`.
 5. **Environment Variables** → **Developer view**: `deploy/coolify-api.env.example` dosyasının içeriğini yapıştırın ve `<...>` yerlerini doldurun.
    - `JwtSettings__Secret` ve `Security__Pepper` için kendi bilgisayarınızda `openssl rand -base64 48` ve `openssl rand -base64 32` çalıştırıp çıkanları yazın.
@@ -102,6 +102,17 @@ Coolify → **Sources** → **+ Add** → **GitHub App**. Adımları izleyip uyg
 - [ ] Sayfa yenilenince oturum açık kalıyor (kalmıyorsa `Auth__SiteDomain` ve `Cors__AllowedOrigins__*` ayarlarına bakın)
 - [ ] `https://mutlugunum.com/admin/giris` ile yönetici girişi, firma onayı
 - [ ] Şifremi unuttum e-postası geliyor
+
+## Google'a tanıtma
+
+Site Google'a kendini hazır tanıtır: her sayfanın kendi başlığı ve açıklaması, mekan sayfalarında adres ve konum bilgisi (schema.org), `https://mutlugunum.com/robots.txt` ve yayındaki mekanlarla kendini güncelleyen `https://mutlugunum.com/sitemap.xml`. WhatsApp ve Instagram'da paylaşılan mekan bağlantıları başlık, açıklama ve kapak fotoğrafıyla görünür.
+
+1. [Google Search Console](https://search.google.com/search-console) → **Mülk ekle** → **Alan adı** → `mutlugunum.com`. Google bir TXT kaydı verir; Cloudflare → DNS'e ekleyin (Search Console Cloudflare'i tanırsa tek tıkla kendisi ekler) → **Doğrula**.
+2. Search Console → **Site haritaları** → `sitemap.xml` yazıp **Gönder**.
+3. **URL denetimi** ile bir mekan sayfasını yazıp **Dizine eklenmeyi iste**; Google'ın sayfayı nasıl gördüğünü **Canlı URL'yi test et** ile görebilirsiniz.
+4. [Bing Webmaster Tools](https://www.bing.com/webmasters) → **Search Console'dan içe aktar**.
+
+Paylaşım önizlemesini denemek için: [Facebook Paylaşım Hata Ayıklayıcısı](https://developers.facebook.com/tools/debug/)'na bir mekan adresi yapıştırın. WhatsApp önizlemeleri bir süre önbellekte kalır; değişiklik hemen görünmeyebilir.
 
 ## Örnek veri (isteğe bağlı)
 

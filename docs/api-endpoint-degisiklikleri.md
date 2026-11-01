@@ -97,6 +97,13 @@ Tarayıcı oturumu artık httpOnly cookie'lerle taşınır; token `localStorage`
 | `GET api/auth/session` | Giriş yapmış | Oturumdaki hesap: `{ userId, role, companyId }`. Frontend httpOnly token'ı okuyamadığı için kullanır |
 | `POST api/auth/logout` | Herkes | Oturumu sunucuda kapatır ve cookie'leri siler. `X-Davetly-Client` başlığı zorunlu |
 | `POST api/auth/change-password` | Giriş yapmış | Body: `{ currentPassword, newPassword }`. Yanlış mevcut şifre giriş kilidine sayılır. Diğer oturumları kapatır |
+| `GET /sitemap.xml` | Herkes | Ana sayfa ve yayındaki bütün mekanların frontend adresleri (`Frontend:BaseUrl`). Frontend `mutlugunum.com/sitemap.xml` adresinde bunu sunar |
+| `GET /robots.txt` | Herkes | API'nin kendisi aranmaz; `/uploads/` ve `/sitemap.xml` açık |
+| `GET /seo/mekan/{id}` | Herkes | WhatsApp, Instagram gibi bağlantı önizlemesi yapan uygulamalar için başlık, açıklama ve kapak görselli küçük HTML. Frontend'in nginx'i bu botları mekan sayfasından buraya yönlendirir. Yayında olmayan mekan `404` |
+
+## Proxy arkasında çalışma
+
+API `X-Forwarded-For` ve `X-Forwarded-Proto` başlıklarını okur (Coolify'da Traefik ekler). Hız sınırı artık her ziyaretçinin kendi IP'sine göre işler; önceden bütün istekler Traefik'in adresinden geldiği için sitedeki herkes aynı sınırı paylaşıyordu (örneğin bütün site için dakikada 10 giriş). Bu başlıklara her kaynaktan güvenildiği için API'nin portu dışarı açılmamalı, yalnızca proxy üzerinden erişilmeli.
 
 ## Eski → yeni
 

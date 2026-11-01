@@ -2,6 +2,7 @@ using HappyDay.Application.Features.Queries.Organization.GetByCompany;
 using HappyDay.Application.Features.Queries.Organization.GetFeatured;
 using HappyDay.Application.Features.Queries.Organization.GetFilterOrganization;
 using HappyDay.Application.Features.Queries.Organization.GetOrganizationWithImages;
+using HappyDay.Application.Features.Queries.Seo.GetSitemap;
 using HappyDay.Domain.Entities;
 
 namespace HappyDay.Application.Interface.Repository;
@@ -30,6 +31,9 @@ public interface IOrganizationRepository:IGenericRepository<Organization>
     Task<int> CountPublishedByCityAsync(int cityId);
 
     Task<int> CountPublishedAsync();
+
+    /// <summary>sitemap.xml: yayındaki bütün mekanlar ve son değişiklik zamanları</summary>
+    Task<List<SitemapVenue>> GetPublishedForSitemapAsync();
    
 
     

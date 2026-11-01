@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Threading.RateLimiting;
 using System.Globalization;
 using System.Text;
@@ -117,6 +118,18 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Yayında API, Coolify'ın Traefik'inin arkasında çalışır: istek Traefik'ten gelir. Ziyaretçinin IP'si (hız sınırı)
+// ve https bilgisi (önizlemedeki görsel adresleri) X-Forwarded-For / X-Forwarded-Proto başlıklarındadır.
+// Proxy'nin docker ağındaki adresi önceden bilinmediği için hepsine güvenilir; bu yüzden API'nin portu
+// dışarı açılmamalı, yalnızca Traefik üzerinden erişilmelidir. Traefik, dışarıdan gelen X-Forwarded-* başlıklarını
+// kendi değeriyle değiştirir; ForwardLimit 1 olduğu için yalnızca Traefik'in eklediği son değer okunur.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 // Rate limiting — login / mesaj gonderme gibi spam'e acik endpoint'ler icin.
 // Entegrasyon testleri aynı istemciden çok sayıda giriş yaptığı için RateLimiting:Enabled=false ile kapatır.
 var rateLimitingEnabled = builder.Configuration.GetValue("RateLimiting:Enabled", true);
@@ -232,6 +245,7 @@ if (logEmailsOnly)
 
 
 // ---------------- Middleware ----------------
+app.UseForwardedHeaders(); // en başta: sonraki her şey ziyaretçinin gerçek IP'sini ve şemasını görsün
 app.UseMiddleware<SecurityHeadersMiddleware>();
 
 // Swagger geliştirmede hep açık; sunucuda yalnızca Swagger__Enabled=true ile (iş bitince kapatın)
