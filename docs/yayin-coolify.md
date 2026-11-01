@@ -103,6 +103,16 @@ Coolify → **Sources** → **+ Add** → **GitHub App**. Adımları izleyip uyg
 - [ ] `https://mutlugunum.com/admin/giris` ile yönetici girişi, firma onayı
 - [ ] Şifremi unuttum e-postası geliyor
 
+## Örnek veri (isteğe bağlı)
+
+Site ilk açıldığında mekan yoktur. Boş görünmesin diye 3 kurgusal firma ve 5 mekan (görseller ve paketlerle) eklenebilir. Coolify → PostgreSQL → **Terminal**'de:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/yasinerenkovalik/happydayback/main/deploy/ornek-veri.sql | psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
+```
+
+Sonda `ornek_firma = 3`, `ornek_mekan = 5` yazar. Bu firmalarla giriş yapılamaz, e-postaları teslim edilemeyen `ornek-*@mutlugunum.invalid` adresleridir. Gerçek firmalar gelince aynı komutu `ornek-veri-sil.sql` ile çalıştırıp hepsini kaldırın; başka kayıtlara dokunmaz.
+
 ## Güncelleme
 
 Kodu GitHub'a gönderdiğinizde Coolify ilgili kaynağı otomatik yeniden derleyip yayınlar (GitHub App kuruluysa). Elle yayın için kaynağın sayfasında **Redeploy**. Yeni migration'lar API açılırken kendiliğinden uygulanır.
