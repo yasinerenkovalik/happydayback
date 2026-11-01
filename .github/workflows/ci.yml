@@ -60,7 +60,7 @@ jobs:
       - name: Eksik migration kontrolü
         env:
           ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=postgres
-        run: dotnet tool run dotnet-ef migrations has-pending-model-changes -p Infrastructure/HappyDay.Persistance -s Presentation/HappyDay.Api --no-build -c Release
+        run: dotnet tool run dotnet-ef migrations has-pending-model-changes -p Infrastructure/HappyDay.Persistance -s Presentation/HappyDay.Api --no-build --configuration Release
 
   docker:
     name: Docker imajı
