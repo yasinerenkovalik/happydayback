@@ -1,0 +1,21 @@
+namespace HappyDay.Application.Features.Queries.Organization.GetByCompany;
+
+public class GetByCompanyQueryResponse
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public int CategoryId { get; set; }
+    public string Description { get; set; }
+    public string Location { get; set; }
+    public List<string> Services { get; set; } = new();
+    public bool IsOutdoor { get; set; }
+    public string? CoverPhotoPath { get; set; }
+    public decimal Price { get; set; }
+    public int MaxGuestCount { get; set; }
+
+    /// <summary>Yönetici yayından kaldırdıysa zamanı ve sebebi (firma paneli gösterir)</summary>
+    public DateTime? RemovedByAdminAt { get; set; }
+    public string? RemovalReason { get; set; }
+
+
+}

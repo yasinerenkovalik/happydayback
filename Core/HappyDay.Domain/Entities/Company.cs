@@ -1,0 +1,30 @@
+using System.Text.Json.Serialization;
+using HappyDay.Domain.Entities.BaseEntites;
+
+namespace HappyDay.Domain.Entities;
+
+public class Company:BaseEntity, ILockableAccount
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    [JsonIgnore] public string PasswordHash { get; set; } = default!;
+    public string Adress { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Description { get; set; }
+    public decimal Latitude { get; set; }
+    public decimal Longitude { get; set; }
+    public int CityId { get; set; }
+    public City City { get; set; }
+
+    public int DistrictId { get; set; }
+    public District District { get; set; }
+    
+    public ICollection<Organization> Organizations { get; set; }
+    public bool IsApproved { get; set; } // Company
+    public bool IsEmailConfirmed { get; set; } = false;
+    public DateTime? EmailConfirmedAt { get; set; }
+    public string? CoverPhotoPath { get; set; }
+
+    public int FailedLoginCount { get; set; }
+    public DateTime? LockoutEnd { get; set; }
+}
