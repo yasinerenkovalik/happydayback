@@ -449,6 +449,12 @@ namespace HappyDay.Persistance.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.PrimitiveCollection<List<int>>("EventTypeIds")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer[]")
+                        .HasDefaultValueSql("'{}'::integer[]");
+
                     b.Property<bool>("IsActivated")
                         .HasColumnType("boolean");
 

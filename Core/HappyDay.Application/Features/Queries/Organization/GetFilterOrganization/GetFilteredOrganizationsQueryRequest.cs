@@ -11,6 +11,9 @@ public class GetFilteredOrganizationsQueryRequest
     public int? CityId { get; set; }
     public int? DistrictId { get; set; }
     public int? CategoryId { get; set; }
+
+    /// <summary>Etkinlik türünün slug'ı (dugun, nisan, dogum-gunu...; bkz. Common/EventTypes)</summary>
+    public string? EventType { get; set; }
     public bool? IsOutdoor { get; set; }
     public decimal? MaxPrice { get; set; }
     public bool? SortByPriceAsc { get; set; }

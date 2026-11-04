@@ -53,6 +53,7 @@ public class OrganizationRepository:GenericRepository<Organization>,IOrganizatio
                     }).ToList(),
                 Duration = o.Duration,
                 Services = o.Services,
+                EventTypeIds = o.EventTypeIds,
                 IsOutdoor = o.IsOutdoor,
                 ReservationNote = o.ReservationNote,
                 CancelPolicy = o.CancelPolicy,
@@ -85,6 +86,13 @@ public class OrganizationRepository:GenericRepository<Organization>,IOrganizatio
 
     if (request.CategoryId.HasValue)
         query = query.Where(x => x.CategoryId == request.CategoryId);
+
+    if (!string.IsNullOrWhiteSpace(request.EventType))
+    {
+        // Bilinmeyen etkinlik adresinde bütün mekanlar değil, hiç mekan görünmesin
+        var eventTypeId = EventTypes.FindBySlug(request.EventType)?.Id ?? -1;
+        query = query.Where(x => x.EventTypeIds.Contains(eventTypeId));
+    }
 
     if (request.IsOutdoor.HasValue)
         query = query.Where(x => x.IsOutdoor == request.IsOutdoor);

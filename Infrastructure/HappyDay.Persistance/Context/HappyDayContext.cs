@@ -58,6 +58,11 @@ public class HappyDayContext : DbContext
             .HasForeignKey(o => o.DistrictId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // Mevcut mekanlar boş listeyle başlar; firma düzenlerken seçer
+        modelBuilder.Entity<Organization>()
+            .Property(o => o.EventTypeIds)
+            .HasDefaultValueSql("'{}'::integer[]");
+
 
         modelBuilder.Entity<AuthSession>(b =>
         {

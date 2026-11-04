@@ -1,3 +1,4 @@
+using HappyDay.Application.Common;
 using HappyDay.Application.Interface.Repository;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -40,11 +41,12 @@ public class GetVenuePreviewQueryRequestHandler : IRequestHandler<GetVenuePrevie
         var category = (await _categories.GetAllAysnc()).FirstOrDefault(c => c.Id == venue.CategoryId)?.Name;
         var site = (_config["Frontend:BaseUrl"] ?? "https://mutlugunum.com").TrimEnd('/');
         var cover = venue.CoverPhotoPath ?? venue.Images?.FirstOrDefault()?.ImageUrl;
+        var events = EventTypes.Names(venue.EventTypeIds);
 
         return new VenuePreview(
-            SeoText.VenueTitle(venue.Title, venue.DistrictName, venue.CityName),
+            SeoText.VenueTitle(venue.Title, venue.DistrictName, venue.CityName, events),
             venue.Title,
-            SeoText.VenueDescription(category, venue.DistrictName, venue.CityName, venue.MaxGuestCount, venue.Price, venue.Description),
+            SeoText.VenueDescription(category, venue.DistrictName, venue.CityName, events, venue.MaxGuestCount, venue.Price, venue.Description),
             $"{site}/mekan/{venue.Id}",
             AbsoluteImageUrl(cover, request.AssetBaseUrl));
     }

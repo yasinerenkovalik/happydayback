@@ -14,6 +14,9 @@ public class CreateOrganizationCommandRequest:IRequest<GeneralResponse<CreateOrg
     public int CategoryId { get; set; }
 
     public List<string> Services { get; set; } = new();
+
+    /// <summary>Uygun olduğu etkinlikler; en az bir tane (bkz. Common/EventTypes)</summary>
+    public List<int> EventTypeIds { get; set; } = new();
     public string Duration { get; set; }
     public bool IsOutdoor { get; set; }
     public string? ReservationNote { get; set; }

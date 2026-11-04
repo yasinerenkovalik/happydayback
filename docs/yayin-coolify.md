@@ -122,7 +122,7 @@ Site ilk açıldığında mekan yoktur. Boş görünmesin diye 3 kurgusal firma 
 wget -qO- https://raw.githubusercontent.com/yasinerenkovalik/happydayback/main/deploy/ornek-veri.sql | psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
 ```
 
-Sonda `ornek_firma = 3`, `ornek_mekan = 5` yazar. Bu firmalarla giriş yapılamaz, e-postaları teslim edilemeyen `ornek-*@mutlugunum.invalid` adresleridir. Gerçek firmalar gelince aynı komutu `ornek-veri-sil.sql` ile çalıştırıp hepsini kaldırın; başka kayıtlara dokunmaz.
+Sonda `ornek_firma = 3`, `ornek_mekan = 5` yazar. Örnek mekanlar uygun oldukları etkinliklerle (düğün, nişan, doğum günü...) gelir; dosya API'nin son sürümünün sütunlarını kullanır, bu yüzden önce API'yi yayına alın. Örnek veri zaten yüklüyse aynı komut onları silip güncel haliyle yeniden ekler. Bu firmalarla giriş yapılamaz, e-postaları teslim edilemeyen `ornek-*@mutlugunum.invalid` adresleridir. Gerçek firmalar gelince aynı komutu `ornek-veri-sil.sql` ile çalıştırıp hepsini kaldırın; başka kayıtlara dokunmaz.
 
 ## Güncelleme
 
@@ -135,7 +135,16 @@ Kodu GitHub'a gönderdiğinizde Coolify ilgili kaynağı otomatik yeniden derley
 
 ## E-posta
 
-Gmail SMTP denemeye yeter ama yayında günlük gönderim sınırı vardır ve e-postalar kişisel Gmail adresinden gider. Alan adına bağlı bir adres (`bildirim@mutlugunum.com`: Yandex, Zoho, Google Workspace) ya da Brevo gibi bir gönderim servisi kullanın; yalnızca `Smtp__*` değişkenleri değişir.
+**Gelen posta:** `bilgi@mutlugunum.com` Cloudflare Email Routing ile Gmail'e yönlenir (Cloudflare → Email → Email Routing; MX ve SPF kayıtlarını Cloudflare ekler). Sitedeki iletişim adresi budur.
+
+**Sitenin gönderdiği e-postalar** (kayıt onayı, şifre sıfırlama, teklif bildirimi): Gmail SMTP denemeye yeter ama günlük sınırı vardır ve mailler kişisel adresten gider. `bilgi@mutlugunum.com`'dan göndermek için bir gönderim servisi kullanın; kod değişmez, yalnızca `Smtp__*` değişkenleri:
+
+| Servis | Ayarlar |
+|---|---|
+| Brevo (ücretsiz, günde 300) | Alan adını doğrulayın (Brevo'nun verdiği DNS kayıtları Cloudflare'e, DNS only), `bilgi@mutlugunum.com`'u gönderici ekleyin. `Smtp__Host=smtp-relay.brevo.com`, `Smtp__Port=587`, `Smtp__UseStartTls=true`, `Smtp__Username`/`Smtp__Password`: Brevo → SMTP & API'deki SMTP login ve anahtar |
+| Cloudflare Email Sending (Workers Paid) | `Smtp__Host=smtp.mx.cloudflare.net`, `Smtp__Port=465`, `Smtp__UseStartTls=false`, `Smtp__Username=api_token`, `Smtp__Password`: Email Sending yetkili API anahtarı |
+
+Her iki durumda `Smtp__FromEmail=bilgi@mutlugunum.com`, `Smtp__FromName=Mutlu Günüm`; değiştirdikten sonra API'yi **Restart** edin ve "Şifremi unuttum" ile deneyin.
 
 ## Sorun giderme
 

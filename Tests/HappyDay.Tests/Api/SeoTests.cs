@@ -63,6 +63,7 @@ public class SeoTests(ApiFactory factory)
         {
             v.Title = "Gül & Bahçe <script>alert(1)</script>";
             v.Description = "Deniz kenarında \"özel\" bir bahçe.";
+            v.EventTypeIds = [2, 1]; // nişan, düğün
         });
 
         // Traefik'in eklediği başlıklar: API önizlemedeki görsel adresini https ile kurmalı
@@ -76,7 +77,8 @@ public class SeoTests(ApiFactory factory)
         Assert.Equal("text/html", response.Content.Headers.ContentType?.MediaType);
         Assert.DoesNotContain("<script>", html);
         Assert.Contains("<meta property=\"og:title\" content=\"Gül &amp; Bahçe &lt;script&gt;alert(1)&lt;/script&gt; — ", html);
-        Assert.Contains("| Mutlu Günüm\">", html);
+        Assert.Contains(" Düğün Mekanı | Mutlu Günüm\">", html); // ilk etkinlik başlıkta
+        Assert.Contains(" · Düğün, Nişan · ", html);
         Assert.Contains("&quot;özel&quot;", html);
         Assert.Contains($"<link rel=\"canonical\" href=\"https://frontend.test/mekan/{venue.Id}\">", html);
         Assert.Contains("<meta property=\"og:image\" content=\"https://api.example.test/uploads/cover/kapak.jpg\">", html);

@@ -23,7 +23,9 @@ public class OrganizationMappings : IRegister
             .IgnoreIf((src, dest) => src.DistrictId == null, dest => dest.DistrictId)
             .IgnoreIf((src, dest) => src.Adress == null, dest => dest.Adress)
             .IgnoreIf((src, dest) => src.Latitude == null, dest => dest.Latitude)
-            .IgnoreIf((src, dest) => src.Longitude == null, dest => dest.Longitude);
+            .IgnoreIf((src, dest) => src.Longitude == null, dest => dest.Longitude)
+            // Handler denetleyip yazar (EventTypes.Normalize); gönderilmezse mevcut seçim kalır
+            .Ignore(dest => dest.EventTypeIds);
 
         // Firma panelindeki mekan listesinde "İlçe, İl" (GetByCompany City/District'i yükler)
         config.NewConfig<Organization, GetByCompanyQueryResponse>()

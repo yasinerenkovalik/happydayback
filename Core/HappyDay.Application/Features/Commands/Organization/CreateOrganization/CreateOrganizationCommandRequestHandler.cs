@@ -1,5 +1,6 @@
 using MapsterMapper;
 using FluentValidation;
+using HappyDay.Application.Common;
 using HappyDay.Application.Interface.Repository;
 using HappyDay.Application.Interface.Services;
 using HappyDay.Application.Wrappers;
@@ -80,6 +81,17 @@ public class CreateOrganizationCommandRequestHandler:IRequestHandler<CreateOrgan
                 isSuccess = false
             };
         }
+
+        var (eventTypeIds, eventTypeError) = EventTypes.Normalize(request.EventTypeIds);
+        if (eventTypeError is not null)
+        {
+            return new GeneralResponse<CreateOrganizationCommandResponse>
+            {
+                Message = eventTypeError,
+                isSuccess = false
+            };
+        }
+        organization.EventTypeIds = eventTypeIds;
 
       
         if (request.CoverPhoto != null)

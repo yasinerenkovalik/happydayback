@@ -15,6 +15,9 @@ public class UpdateOrganizationCommandRequest:IRequest<GeneralResponse<UpdateOrg
     public int? CategoryId { get; set; }
  
     public List<string> Services { get; set; } = new();
+
+    /// <summary>Uygun olduğu etkinlikler. Gönderilmezse mevcut seçim korunur; gönderilirse en az bir tane.</summary>
+    public List<int>? EventTypeIds { get; set; }
     public string? Duration { get; set; }
     public bool IsOutdoor { get; set; }
     public string? ReservationNote { get; set; }

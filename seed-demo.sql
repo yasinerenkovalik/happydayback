@@ -329,6 +329,21 @@ Işıklı bahçe dekorasyonu
 DJ ve dans pisti
 Yağmur planı için çadır', 85000, 340, NULL, '363ff92c-6d0f-52a9-9bdc-77cebf3469d2', now() + interval '1 seconds', now(), '-infinity', true);
 
+-- Uygun olduğu etkinlikler (kimlikler: Core/HappyDay.Application/Common/EventTypes.cs)
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,3,4,5,11}' WHERE "Id" = '08dc7a4e-afbd-51ae-83c5-7c76d8113684'; -- Yeniköy Yalı Balo Salonu: düğün, nişan, kına, söz, nikah, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,4,5,7}' WHERE "Id" = '0573a938-694d-58c2-b234-197e11582e63'; -- Yeniköy Rıhtım Bahçesi: düğün, nişan, söz, nikah, doğum günü
+UPDATE "Organizations" SET "EventTypeIds" = '{2,4,6,7,10,11}' WHERE "Id" = '37dd4b7f-fb29-5330-8f39-d15ba8de8201'; -- Boğaz Tekne Davetleri: nişan, söz, bekarlığa veda, doğum günü, mezuniyet, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,3,4,5}' WHERE "Id" = '3bef5f03-a0b5-5451-9332-c2a393736ac2'; -- Polonez Bahçe: düğün, nişan, kına, söz, nikah
+UPDATE "Organizations" SET "EventTypeIds" = '{2,3,4,7,9}' WHERE "Id" = 'cb56bccc-72eb-5a1d-9f03-e76d6a3369ee'; -- Çamlık Kır Evi: nişan, kına, söz, doğum günü, baby shower
+UPDATE "Organizations" SET "EventTypeIds" = '{2,6,7,10,11}' WHERE "Id" = 'a0acea33-341b-5ef6-923f-d1c17d700b88'; -- Göl Kenarı Kokteyl Alanı: nişan, bekarlığa veda, doğum günü, mezuniyet, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,4,5,7,9}' WHERE "Id" = '984debfa-45b2-5491-b861-7353cf56cdd0'; -- Urla Bağ Evi: düğün, nişan, söz, nikah, doğum günü, baby shower
+UPDATE "Organizations" SET "EventTypeIds" = '{2,3,4,6,7,10}' WHERE "Id" = '7d20e0a9-915b-5a89-a781-d02a47c5ad0f'; -- Urla Taş Avlu: nişan, kına, söz, bekarlığa veda, doğum günü, mezuniyet
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,3,8,11}' WHERE "Id" = '6e6cf4f9-c15f-5a71-b7bc-99598243a553'; -- Kristal Balo Salonu: düğün, nişan, kına, sünnet, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{4,5}' WHERE "Id" = 'fc22f025-3cc4-5d54-acf8-7177f1b95fc9'; -- Çankaya Nikah Köşkü: söz, nikah
+UPDATE "Organizations" SET "EventTypeIds" = '{8,10,11}' WHERE "Id" = '68ba7298-bc9b-5fb4-a977-89ad42d8d9e2'; -- Başkent Kongre Salonu: sünnet, mezuniyet, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,5,6}' WHERE "Id" = '7b88379f-9867-5496-8482-f40483b0371d'; -- Gündoğan Koy Bahçesi: düğün, nişan, nikah, bekarlığa veda
+UPDATE "Organizations" SET "EventTypeIds" = '{2,6,7,10,11}' WHERE "Id" = '363ff92c-6d0f-52a9-9bdc-77cebf3469d2'; -- Yalıkavak Rooftop: nişan, bekarlığa veda, doğum günü, mezuniyet, kurumsal
+
 COMMIT;
 
 SELECT (SELECT COUNT(*) FROM "Users" WHERE "Email" LIKE 'seed-%') AS admin,

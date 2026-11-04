@@ -1,4 +1,5 @@
 using MapsterMapper;
+using HappyDay.Application.Common;
 using HappyDay.Application.Features.Commands.Organization.UpdateOrganization;
 using HappyDay.Application.Interface.Repository;
 using HappyDay.Application.Interface.Services;
@@ -55,6 +56,20 @@ namespace HappyDay.Application.Features.Commands.Organization.UpdateOrganization
                     Message = locationError,
                     isSuccess = false
                 };
+            }
+
+            if (request.EventTypeIds is not null)
+            {
+                var (eventTypeIds, eventTypeError) = EventTypes.Normalize(request.EventTypeIds);
+                if (eventTypeError is not null)
+                {
+                    return new GeneralResponse<UpdateOrganizationCommandResponse>
+                    {
+                        Message = eventTypeError,
+                        isSuccess = false
+                    };
+                }
+                organization.EventTypeIds = eventTypeIds;
             }
 
             // 1. Kapak fotoğrafı varsa kaydet

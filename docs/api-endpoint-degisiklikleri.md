@@ -97,9 +97,18 @@ Tarayıcı oturumu artık httpOnly cookie'lerle taşınır; token `localStorage`
 | `GET api/auth/session` | Giriş yapmış | Oturumdaki hesap: `{ userId, role, companyId }`. Frontend httpOnly token'ı okuyamadığı için kullanır |
 | `POST api/auth/logout` | Herkes | Oturumu sunucuda kapatır ve cookie'leri siler. `X-Davetly-Client` başlığı zorunlu |
 | `POST api/auth/change-password` | Giriş yapmış | Body: `{ currentPassword, newPassword }`. Yanlış mevcut şifre giriş kilidine sayılır. Diğer oturumları kapatır |
+| `GET api/event-types` | Herkes | Mekanların seçebileceği etkinlikler: `[{ id, name, slug }]` (Düğün `dugun`, Nişan `nisan`, Kına Gecesi `kina-gecesi`, Söz, Nikah, Bekarlığa Veda, Doğum Günü `dogum-gunu`, Sünnet, Baby Shower, Mezuniyet, Kurumsal Etkinlik). Liste kodda sabit (`Common/EventTypes.cs`) |
 | `GET /sitemap.xml` | Herkes | Ana sayfa ve yayındaki bütün mekanların frontend adresleri (`Frontend:BaseUrl`). Frontend `mutlugunum.com/sitemap.xml` adresinde bunu sunar |
 | `GET /robots.txt` | Herkes | API'nin kendisi aranmaz; `/uploads/` ve `/sitemap.xml` açık |
 | `GET /seo/mekan/{id}` | Herkes | WhatsApp, Instagram gibi bağlantı önizlemesi yapan uygulamalar için başlık, açıklama ve kapak görselli küçük HTML. Frontend'in nginx'i bu botları mekan sayfasından buraya yönlendirir. Yayında olmayan mekan `404` |
+
+## Etkinlik türleri
+
+- `POST api/organizations`: `EventTypeIds` (form alanı, birden çok kez) zorunlu; en az bir, hepsi `api/event-types` listesinden. Tekrarlar atılır, sıralanır.
+- `PUT api/organizations/{id}`: `EventTypeIds` gönderilmezse mevcut seçim kalır; gönderilirse yine en az bir tane.
+- `GET api/organizations/{id}/with-images` ve `/manage`: `eventTypeIds` döner.
+- `GET api/organizations/filter?EventType=dugun`: o etkinliğe uygun mekanlar. Bilinmeyen slug boş liste döner.
+- `VenueEventTypes` migration'ı `Organizations.EventTypeIds` (integer[]) sütununu ekler; mevcut mekanlar boş listeyle başlar ve etkinlik filtresinde görünmez. Firma mekanı düzenleyip kaydederken seçmek zorundadır.
 
 ## Proxy arkasında çalışma
 

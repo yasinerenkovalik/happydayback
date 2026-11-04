@@ -12,6 +12,9 @@ public class Organization:BaseEntity
 
    
     public List<string> Services { get; set; } = new();
+
+    /// <summary>Uygun olduğu etkinlikler (düğün, nişan...); kimlikler Application/Common/EventTypes'ta</summary>
+    public List<int> EventTypeIds { get; set; } = new();
     public string Duration { get; set; }
     public bool IsOutdoor { get; set; }
     public string? ReservationNote { get; set; }

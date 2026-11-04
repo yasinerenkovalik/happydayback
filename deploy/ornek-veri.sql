@@ -6,6 +6,8 @@
 --  Coolify → PostgreSQL → Terminal'de:
 --    wget -qO- https://raw.githubusercontent.com/yasinerenkovalik/happydayback/main/deploy/ornek-veri.sql | psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1
 --
+--  API'nin son sürümü yayında olmalı: dosya migration'larla gelen sütunları (EventTypeIds) kullanır.
+--
 --  Firmalar kurgusal ve giriş yapılamaz: şifre hash'i kimsenin bilmediği rastgele
 --  bir şifreden üretildi, e-postalar teslim edilemeyen .invalid adresleri.
 --  Tekrar çalıştırılabilir: önce kendi kayıtlarını (ornek-*@mutlugunum.invalid) siler.
@@ -150,6 +152,13 @@ Işıklı bahçe dekorasyonu
 DJ ve dans pisti
 Yağmur planı için çadır', 85000, 340, NULL, '363ff92c-6d0f-52a9-9bdc-77cebf3469d2', now() + interval '1 seconds', now(), '-infinity', true);
 
+
+-- Uygun olduğu etkinlikler (kimlikler: Core/HappyDay.Application/Common/EventTypes.cs)
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,3,4,5,11}' WHERE "Id" = '08dc7a4e-afbd-51ae-83c5-7c76d8113684'; -- Yeniköy Yalı Balo Salonu: düğün, nişan, kına, söz, nikah, kurumsal
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,4,5,7,9}' WHERE "Id" = '984debfa-45b2-5491-b861-7353cf56cdd0'; -- Urla Bağ Evi: düğün, nişan, söz, nikah, doğum günü, baby shower
+UPDATE "Organizations" SET "EventTypeIds" = '{2,3,4,6,7,10}' WHERE "Id" = '7d20e0a9-915b-5a89-a781-d02a47c5ad0f'; -- Urla Taş Avlu: nişan, kına, söz, bekarlığa veda, doğum günü, mezuniyet
+UPDATE "Organizations" SET "EventTypeIds" = '{1,2,5,6}' WHERE "Id" = '7b88379f-9867-5496-8482-f40483b0371d'; -- Gündoğan Koy Bahçesi: düğün, nişan, nikah, bekarlığa veda
+UPDATE "Organizations" SET "EventTypeIds" = '{2,6,7,10,11}' WHERE "Id" = '363ff92c-6d0f-52a9-9bdc-77cebf3469d2'; -- Yalıkavak Rooftop: nişan, bekarlığa veda, doğum günü, mezuniyet, kurumsal
 
 COMMIT;
 

@@ -15,6 +15,7 @@ public class GetOrganizationWithImagesResponse
     public int MaxGuestCount { get; set; }
     public string Location { get; set; }
     public List<string> Services { get; set; } = new();
+    public List<int> EventTypeIds { get; set; } = new();
     public string Duration { get; set; }
     public bool IsOutdoor { get; set; }
     public string ReservationNote { get; set; }
